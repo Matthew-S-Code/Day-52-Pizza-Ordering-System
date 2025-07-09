@@ -1,0 +1,67 @@
+import os, time
+
+info = []
+
+try:
+  f = open("PizzaOrder.txt","r")
+  info = eval(f.read())
+  f.close()
+
+except Exception as err:
+  info = []
+  
+def pp():
+  for row in info:
+    for item in row:
+      print(item, end="\t|\t")
+    print()
+
+def add():
+  while True:
+    try:
+      numOf = int(input("How many pizzas would you like to order?\n>"))
+      size = input("What size pizza, Small, Medium or Large?\n>").lower()
+      
+      if size == "small":
+        sizeC = 4
+      elif size == "medium":
+        sizeC = 6
+      elif size == "large":
+        sizeC = 8
+      else:
+        print("Sizes are either Small, Medium or Large.")
+        continue
+        
+      name = input("What is your name?\n>").title()
+      
+      total_cost = numOf * sizeC
+      
+      row = [numOf, size, name, total_cost]
+      info.append(row)
+      pp()
+      print(f"Thank you {name}, your pizzas will cost £{total_cost}")
+      time.sleep(2)
+      os.system("clear")
+      break
+      
+    except Exception as err:
+      print("You must input a numerical character, e.g. 1, please try again")
+    
+
+def view():
+  pp()
+
+while True:
+  print("🍕Pizza Parlour🍕")
+  menu = input("Would you like to make an order - O, or view the current orders - V?\n>").lower()
+  if menu == "o":
+    add()
+    continue
+  elif menu == "v":
+    view()
+  else:
+    break
+    
+f = open("PizzaOrder.txt", "w")
+f.write(str(info))
+f.close()
